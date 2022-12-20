@@ -9,7 +9,7 @@
 */
 int main(int argc, char **argv, char **env)
 {
-	if (argc > 1)
+	if (argc > 1 || !isatty(STDIN_FILENO))
 	{
 		ninteractive(argv, env);
 		return (0);

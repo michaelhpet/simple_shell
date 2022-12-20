@@ -32,13 +32,11 @@ int interactive(char **env)
 		if (pid == 0)
 		{
 			execve(args[0], args, env);
+			handle_errors(args);
 			break;
 		}
 		else
-		{
-			fflush(stdin);
 			wait(&wstat);
-		}
 	} while (1);
 
 	return (0);
