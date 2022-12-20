@@ -5,7 +5,7 @@
  * @env: environment vector from main
  * Return: 0 (success)
 */
-int interactive(char **env)
+int interactive(char **envp)
 {
 	pid_t pid;
 	int wstat;
@@ -31,7 +31,7 @@ int interactive(char **env)
 
 		if (pid == 0)
 		{
-			execve(args[0], args, env);
+			execve(args[0], args, envp);
 			handle_errors(args);
 			break;
 		}

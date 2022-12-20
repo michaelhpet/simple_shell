@@ -26,9 +26,15 @@ int ninteractive(char **argv, char **env)
 	if (pid == 0)
 	{
 		if (argv[1])
+		{
 			execve(argv[1], argv + 1, env);
+			handle_errors(argv + 1);
+		}
 		else
+		{
 			execve(args[0], args, env);
+			handle_errors(args);
+		}
 	}
 	else
 		wait(NULL);

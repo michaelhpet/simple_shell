@@ -7,15 +7,15 @@
  * @env: enviromnent variables vector
  * Return: 0 (success)
 */
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv, char **envp)
 {
 	if (argc > 1 || !isatty(STDIN_FILENO))
 	{
-		ninteractive(argv, env);
+		ninteractive(argv, envp);
 		return (0);
 	}
 
-	interactive(env);
+	interactive(envp);
 
 	return (0);
 }

@@ -46,8 +46,12 @@ int _shell(void);
 int _strcmp(char *s1, char *s2);
 void make_args(char *command, char *arg, char **args);
 char *strcnl(char *str);
-int ninteractive(char **argv, char **env);
-int interactive(char **env);
+int ninteractive(char **argv, char **envp);
+int interactive(char **envp);
 void handle_errors(char **command);
+void validate(char *args[], char **envp);
+int is_builtin(char *command);
+int in_path(char *command, char **envp);
+int run_builtin(char *args[], char **envp);
 
 #endif /* _MAIN_H_ */
