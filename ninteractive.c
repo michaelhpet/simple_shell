@@ -26,20 +26,19 @@ int ninteractive(state_t *state, char **argv)
 		if (argv[1])
 		{
 			execve(argv[1], argv + 1, environ);
-			state->args = argv + 1;
+			state->args[0] = (argv + 1)[0];
 			handle_errors(state);
 		}
 		else
 		{
 			execve(state->args[0], state->args, environ);
 			handle_errors(state);
+			_printf("something went wrong\n");
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
-	{
 		wait(NULL);
-		free(state);
-	}
 
 	return (0);
 }

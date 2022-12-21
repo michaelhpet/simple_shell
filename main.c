@@ -8,16 +8,15 @@
 */
 int main(int argc, char **argv)
 {
-	state_t *state;
+	state_t state = {NULL, 1, NULL, {NULL}, {NULL}, NULL};
 
-	state = init_state(&state);
 	if (argc > 1 || !isatty(STDIN_FILENO))
 	{
-		ninteractive(state, argv);
+		ninteractive(&state, argv);
 		return (0);
 	}
 
-	interactive(state);
+	interactive(&state);
 
 	return (0);
 }

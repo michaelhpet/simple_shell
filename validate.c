@@ -7,24 +7,16 @@
 */
 void validate(state_t *state)
 {
-	char *path;
+	char path[1024];
 
 	if (is_builtin(state))
 		run_builtin(state);
 	else if (in_path(state))
 	{
-		path = malloc(sizeof(char) * 1024);
-		if (path == NULL)
-		{
-			free_state(state);
-			exit(EXIT_FAILURE);
-		}
 		path[0] = 0;
-		path = strcat(path, state->path_dir);
-		path = strcat(path, "/");
-		path = strcat(path, state->command);
-		free(state->command);
-		state->command = path;
+		_strcat(path, state->path_dir);
+		_strcat(path, "/");
+		state->path_dir = _strcat(path, state->command);
 	}
 	else
 		handle_errors(state);
@@ -76,7 +68,6 @@ int in_path(state_t *state)
 			{
 			if (_strcmp(ent->d_name, state->command) == 0)
 			{
-				free(state->path_dir);
 				state->path_dir = state->paths[i];
 				return (1);
 			}

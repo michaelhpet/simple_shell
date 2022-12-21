@@ -18,10 +18,7 @@ int interactive(state_t *state)
 		if (!_strcmp(state->command, ""))
 			continue;
 		if (!_strcmp(state->command, "exit"))
-		{
-			free_state(state);
 			return (0);
-		}
 
 		if (!abs_path(state))
 			validate(state);

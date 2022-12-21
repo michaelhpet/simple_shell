@@ -54,8 +54,8 @@ struct _state
 	char *command;
 	size_t command_len;
 	char *arg;
-	char **args;
-	char **paths;
+	char *args[1024];
+	char *paths[1024];
 	char *path_dir;
 };
 
