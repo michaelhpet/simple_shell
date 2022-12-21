@@ -11,7 +11,7 @@ int interactive(state_t *state)
 
 	while (1)
 	{
-		_printf("$ ");
+		_printf("($) ");
 		getline(&state->command, &state->command_len, stdin);
 		state->command = strcnl(state->command);
 
