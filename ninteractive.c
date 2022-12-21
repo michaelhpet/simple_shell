@@ -2,21 +2,19 @@
 
 /**
  * ninteractive - non-interactive shell mode
+ * @state: state struct containing all shared variables
  * @argv: argument vector from main
- * @env: environment vector from main
  * Return: 0 (success)
 */
-int ninteractive(char **argv, char **env)
+int ninteractive(state_t *state, char **argv)
 {
-	size_t command_len;
-	char *command, *arg, *args[1024];
 	pid_t pid;
 
 	if (!argv[1])
 	{
-		getline(&command, &command_len, stdin);
-		command = strcnl(command);
-		make_args(command, arg, args);
+		getline(&state->command, &state->command_len, stdin);
+		state->command = strcnl(state->command);
+		make_args(state);
 	}
 
 	pid = fork();
@@ -27,17 +25,21 @@ int ninteractive(char **argv, char **env)
 	{
 		if (argv[1])
 		{
-			execve(argv[1], argv + 1, env);
-			handle_errors(argv + 1);
+			execve(argv[1], argv + 1, environ);
+			state->args = argv + 1;
+			handle_errors(state);
 		}
 		else
 		{
-			execve(args[0], args, env);
-			handle_errors(args);
+			execve(state->args[0], state->args, environ);
+			handle_errors(state);
 		}
 	}
 	else
+	{
 		wait(NULL);
+		free(state);
+	}
 
 	return (0);
 }

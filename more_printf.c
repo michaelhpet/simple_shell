@@ -87,3 +87,31 @@ int _pow(int base, int exp)
 
 	return (result);
 }
+
+/**
+ * printer - prints according to format
+ * @format: string to print
+ * @args: argument listi
+ * Return: number of chars printed
+*/
+int printer(char format, va_list args)
+{
+	int i, print_count;
+
+	format_t formats[] = {
+		{'c', print_char},
+		{'s', print_str},
+		{'i', print_int},
+		{'d', print_int},
+		{'u', print_int},
+	};
+
+	print_count = 0;
+	for (i = 0; i < 5; i++)
+	{
+		if (format == formats[i].specifier)
+			print_count = formats[i].printer(args);
+	}
+
+	return (print_count);
+}

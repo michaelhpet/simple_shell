@@ -1,31 +1,28 @@
 #include "main.h"
 
 /**
- * printer - prints according to format
- * @format: string to print
- * @args: argument listi
- * Return: number of chars printed
-*/
-int printer(char format, va_list args)
+ * _strcat - concatenates two strings
+ * @dest: string to concat into
+ * @src: string to concat from
+ * Return: pointer to resulting string dest
+ */
+
+char *_strcat(char *dest, char *src)
 {
-	int i, print_count;
+	int i, len_dest, len_src;
 
-	format_t formats[] = {
-		{'c', print_char},
-		{'s', print_str},
-		{'i', print_int},
-		{'d', print_int},
-		{'u', print_int},
-	};
+	len_dest = 0;
+	while (dest[len_dest] != '\0')
+		len_dest++;
 
-	print_count = 0;
-	for (i = 0; i < 5; i++)
-	{
-		if (format == formats[i].specifier)
-			print_count = formats[i].printer(args);
-	}
+	len_src = 0;
+	while (src[len_src] != '\0')
+		len_src++;
 
-	return (print_count);
+	for (i = 0; i <= len_src; i++)
+		dest[i + len_dest] = src[i];
+
+	return (dest);
 }
 
 /**

@@ -2,20 +2,31 @@
 
 /**
  * make_args - creates an array of string args from strtok yields
- * @command: command string to parse
- * @arg: pointer to store each argument token
- * @args: pointer to store array of argument tokens
+ * @state: state struct containing all shared variabled
 */
-void make_args(char *command, char *arg, char **args)
+void make_args(state_t *state)
 {
 	int i;
 
 	i = 0;
-	arg = strtok(command, " ");
-	while (arg)
+	state->arg = strtok(state->command, " ");
+	while (state->arg)
 	{
-		args[i++] = arg;
-		arg = strtok(NULL, " ");
+		state->args[i++] = state->arg;
+		state->arg = strtok(NULL, " ");
 	}
-	args[i] = NULL;
+	state->args[i] = NULL;
+}
+
+/**
+ * abs_path - checks if program file is absolute path
+ * @state: state struct containing all shared variables
+ * Return: 1 if absolute, 0 otherwise
+*/
+int abs_path(state_t *state)
+{
+	if (state->command[0] == '/')
+		return (1);
+
+	return (0);
 }

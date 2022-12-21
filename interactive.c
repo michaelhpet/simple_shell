@@ -2,28 +2,31 @@
 
 /**
  * interactive - interactive shell
- * @env: environment vector from main
+ * @state: state struct of shell containing all shared variables
  * Return: 0 (success)
 */
-int interactive(char **envp)
+int interactive(state_t *state)
 {
 	pid_t pid;
-	int wstat;
-	size_t command_len;
-	char *command, *arg, *args[1024];
 
-	do {
-		printf("$ ");
-		command_len = 1;
-		getline(&command, &command_len, stdin);
-		command = strcnl(command);
+	while (1)
+	{
+		_printf("$ ");
+		getline(&state->command, &state->command_len, stdin);
+		state->command = strcnl(state->command);
 
-		if (!_strcmp(command, ""))
+		if (!_strcmp(state->command, ""))
 			continue;
-		if (!_strcmp(command, "exit"))
-			break;
+		if (!_strcmp(state->command, "exit"))
+		{
+			free_state(state);
+			return (0);
+		}
 
-		make_args(command, arg, args);
+		if (!abs_path(state))
+			validate(state);
+
+		make_args(state);
 
 		pid = fork();
 		if (pid == -1)
@@ -31,13 +34,12 @@ int interactive(char **envp)
 
 		if (pid == 0)
 		{
-			execve(args[0], args, envp);
-			handle_errors(args);
-			break;
+			execve(state->args[0], state->args, environ);
+			exit(EXIT_FAILURE);
 		}
 		else
-			wait(&wstat);
-	} while (1);
+			wait(NULL);
+	}
 
-	return (0);
+	return (1);
 }
